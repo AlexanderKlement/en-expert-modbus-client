@@ -1,0 +1,12 @@
+interval: 60
+
+modbus:
+  host: 'localhost'
+  port: 502
+
+mqtt:
+  broker: 'mqtt.en-expert.com'
+  port: 1883
+  username: 'en-expert'
+  password: '2pO7gTOcOuTcPnM'
+  topic: 'modbus/data'

@@ -1,16 +1,51 @@
-# This is a sample Python script.
+import yaml
+import logging
+import paho.mqtt.client as mqtt
+from pymodbus.client.sync import ModbusTcpClient as ModbusClient
+import time
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Set up logging
+logging.basicConfig(filename='/var/log/en-expert-modbus.log', level=logging.INFO, 
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Load configuration
+with open('config.yaml', 'r') as f:
+    config = yaml.safe_load(f)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+modbus_config = config['modbus']
+mqtt_config = config['mqtt']
+scan_interval = config['interval']
 
+# Create a Modbus client
+client = ModbusClient(modbus_config['host'], port=modbus_config['port'])
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# Create an MQTT client
+mqtt_client = mqtt.Client()
+if 'username' in mqtt_config and 'password' in mqtt_config:
+    username = mqtt_config['username']
+    password = mqtt_config['password']
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    mqtt_client.username_pw_set(username=username, password=None)
+
+# Connect the MQTT client to the broker
+mqtt_client.connect(mqtt_config['broker'], mqtt_config['port'])
+
+while True:
+    if not client.connect(): #This could maybe lead to errors. Maybe we will have to setup a new connection every interval
+        logging.error('Could not connect to Modbus device')
+        time.sleep(scan_interval)
+        continue
+
+    # Read data from Modbus device
+    rr = client.read_holding_registers(1, 1)
+    if not rr.isError():
+        # Publish data to MQTT broker
+        mqtt_client.publish(mqtt_config['topic'], rr.registers[0])
+        # Log the event
+        logging.info('Published data to MQTT broker')
+    else:
+        # Log the error
+        logging.error('Error reading Modbus device')
+
+    # Sleep for the specified interval
+    time.sleep(scan_interval)
