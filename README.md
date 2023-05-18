@@ -60,11 +60,13 @@ VPN connection goes down: <br>
 1. Create two files in /etc/openvpn/ with the following content:
     - update-resolv-conf-down.sh
     ```bash
+   #!/bin/bash
    echo "nameserver 194.151.228.34" > /etc/resolv.conf
    echo "nameserver 194.151.228.18" >> /etc/resolv.conf
    ```
     - update-resolv-conf-up.sh
     ```bash
+   #!/bin/bash
    echo "nameserver 8.8.8.8" > /etc/resolv.conf
    echo "nameserver 8.8.4.4" >> /etc/resolv.conf
    ```
@@ -79,3 +81,4 @@ VPN connection goes down: <br>
     up /etc/openvpn/update-resolv-conf-up.sh
     down /etc/openvpn/update-resolv-conf-down.sh
     ```
+
