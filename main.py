@@ -17,7 +17,7 @@ mqtt_config = config['mqtt']
 scan_interval = config['interval']
 
 # Create a Modbus client
-client = ModbusClient(modbus_config['host'], port=modbus_config['port'])
+modbus_client = ModbusClient(modbus_config['host'], port=modbus_config['port'])
 
 # Create an MQTT client
 mqtt_client = mqtt.Client()
@@ -31,13 +31,13 @@ if 'username' in mqtt_config and 'password' in mqtt_config:
 mqtt_client.connect(mqtt_config['broker'], mqtt_config['port'])
 
 while True:
-    if not client.connect(): #This could maybe lead to errors. Maybe we will have to setup a new connection every interval
+    if not modbus_client.connect(): #This could maybe lead to errors. Maybe we will have to setup a new connection every interval
         logging.error('Could not connect to Modbus device')
         time.sleep(scan_interval)
         continue
 
     # Read data from Modbus device
-    rr = client.read_holding_registers(1, 1)
+    rr = modbus_client.read_holding_registers(1, 1)
     if not rr.isError():
         # Publish data to MQTT broker
         mqtt_client.publish(mqtt_config['topic'], rr.registers[0])
