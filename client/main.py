@@ -4,7 +4,7 @@ import configuration
 import modbus_thread
 
 # Set up logging
-logging.basicConfig(filename='/var/log/en-expert-modbus-client.sh.log', level=logging.INFO,
+logging.basicConfig(filename='/var/log/en-expert-modbus-client.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -20,3 +20,4 @@ def run_forever():
 
 if __name__ == '__main__':
     run_forever()
+

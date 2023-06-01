@@ -77,14 +77,14 @@ def create_slave_dict(slave_name: str, slave_ip: str, slave_port: int) -> dict:
         "name": slave_name,
         "ip": slave_ip,
         "port": slave_port,
-        "phase_voltage_milli_volt": phase_voltage_mV,
-        "active_power": active_power_W,
-        "apparent_power": apparent_power_W,
-        "positive_active_energy": positive_active_energy_W,
-        "negative_active_energy": negative_active_energy_W,
-        "frequency": frequency_Hz,
-        "thd_v1": thd_v1_percent,
-        "phase_voltage_max": phase_voltage_max_mV,
+        "phase_voltage_mV": phase_voltage_mV,
+        "active_power_W": active_power_W,
+        "apparent_power_W": apparent_power_W,
+        "positive_active_energy_W": positive_active_energy_W,
+        "negative_active_energy_W": negative_active_energy_W,
+        "frequency_Hz": frequency_Hz,
+        "thd_v1_percent": thd_v1_percent,
+        "phase_voltage_max_mV": phase_voltage_max_mV,
     }
 
     client.close()
