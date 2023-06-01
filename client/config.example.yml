@@ -1,0 +1,66 @@
+
+interval: 60
+
+modbus:
+  slaves:
+    - name: 'OG Kleinteilelager'
+      host: '172.20.0.21'
+      port: 502
+    - name: 'UV-OG Nord'
+      host: '172.20.0.22'
+      port: 502
+    - name: 'UV-EG Versandlager'
+      host: '172.20.0.23'
+      port: 502
+    - name: 'UV-EG BeTEC'
+      host: '172.20.0.24'
+      port: 502
+    - name: 'UV-EG Rotomagazine'
+      host: '172.20.0.25'
+      port: 502
+    - name: 'UV-EG Mensa'
+      host: '172.20.0.26'
+      port: 502
+    - name: 'UV Heizung Stuga'
+      host: '172.20.0.27'
+      port: 502
+    - name: 'Wärmepumpe'
+      host: '172.20.0.28'
+      port: 502
+    - name: 'Trafo 1'
+      host: '172.20.0.29'
+      port: 502
+    - name: 'Trafo 2'
+      host: '172.20.0.30'
+      port: 502
+    - name: 'Beleuchtung Halle EG'
+      host: '172.20.0.31'
+      port: 502
+    - name: 'Beleuchtung Halle OG'
+      host: '172.20.0.32'
+      port: 502
+    - name: 'Serverracks von USV Gebäude'
+      host: '172.20.0.33'
+      port: 502
+    - name: 'Serverracks von USV Serverraum'
+      host: '172.20.0.34'
+      port: 502
+    - name: 'Lüftungsgerät Büro Süd-West'
+      host: '172.20.0.35'
+      port: 502
+    - name: 'Lüftungsgerät Büro Nord-West'
+      host: '172.20.0.36'
+      port: 502
+    - name: 'Lüftungsgerät Büro Nord-Ost'
+      host: '172.20.0.37'
+      port: 502
+    - name: 'Gesamtleistung Kompressoren'
+      host: '172.20.0.38'
+      port: 502
+
+mqtt:
+  broker: 'mqtt.en-expert.com'
+  port: 1883
+  username: ''
+  password: ''
+  topic: 'modbus/data'

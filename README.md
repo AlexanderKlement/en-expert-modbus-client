@@ -21,11 +21,11 @@ This script is reading data from a modbus device and sends it to a backend via M
    and let it run a few minutes to see if it works.
 7. If it works, you can copy the service file to /etc/init.d/en-expert-modbus make it executable
    ```bash
-   chmod +x /etc/init.d/en-expert-modbus
+   chmod +x /etc/init.d/en-expert-modbus-client.sh
    ```
    and enable it with
    ```bash
-   update-rc.d /etc/init.d/en-expert-modbus defaults
+   update-rc.d /etc/init.d/en-expert-modbus-client.sh defaults
    ```
    The defaults option sets the script to start up in runlevels 2, 3, 4, and 5 (which are the usual multi-user
    runlevels), and to shut down in runlevels 0, 1, and 6 (halt, single-user mode, and reboot, respectively).)
@@ -33,13 +33,13 @@ This script is reading data from a modbus device and sends it to a backend via M
    Remember: Since we have no `service`, `systemctl` or other System V wrapper , we have to use the init.d script
    directly
    ```bash
-   service /etc/init.d/en-expert-modbus start
+   services /etc/init.d/en-expert-modbus-client.sh start
    ```
    ```bash
-   service /etc/init.d/en-expert-modbus status
+   services /etc/init.d/en-expert-modbus-client.sh status
    ```
    ```bash
-   service /etc/init.d/en-expert-modbus stop
+   services /etc/init.d/en-expert-modbus-client.sh stop
    ```
 
 NOTE: Log files are located in /var/log/en-expert-modbus.log
@@ -109,5 +109,5 @@ Best way on command line should be:
    Public Key is normally located at /home/root/.ssh/id_rsa.pub. Write access should not be necessary
 5. Clone repo with
     ```bash
-    git clone git@github.com:AlexanderKlement/en-expert-modbus-service.git
+    git clone git@github.com:AlexanderKlement/en-expert-modbus-client.sh-services.git
     ```
