@@ -1,3 +1,4 @@
+import json
 import threading
 import logging
 import configuration
@@ -18,13 +19,15 @@ class ModbusThread(threading.Thread):
 
         mqtt_client.connect(mqtt_config['broker'], mqtt_config['port'])
 
-        for modbus_slaves in modbus_config['clients']:
+        for modbus_slaves in modbus_config['slaves']:
 
             slave_dict = modbus_helper.create_slave_dict(slave_name=modbus_slaves['name'],
                                                          slave_ip=modbus_slaves['host'],
                                                          slave_port=modbus_slaves['port'])
 
-            mqtt_client.publish(mqtt_config['topic'], payload=slave_dict)
+            slave_dict_json = json.dumps(slave_dict)
+
+            mqtt_client.publish(mqtt_config['topic'], payload=slave_dict_json)
             # Log the event
             logging.info('Published data to MQTT broker')
         else:

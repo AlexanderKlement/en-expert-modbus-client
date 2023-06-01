@@ -3,7 +3,7 @@ import yaml
 
 def import_configuration():
     # Load configuration
-    with open('config.yaml', 'r') as f:
+    with open('/opt/en-expoert/modbus-client/config.yml', 'r', encoding='utf8') as f:
         config = yaml.safe_load(f)
 
     modbus_config = config['modbus']

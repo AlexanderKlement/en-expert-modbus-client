@@ -5,7 +5,7 @@ from pymodbus.constants import Endian
 from pymodbus.framer.rtu_framer import ModbusRtuFramer
 from pymodbus.payload import BinaryPayloadDecoder
 
-from client.modbus_data_format_enum import ModbusDataFormat
+from modbus_data_format_enum import ModbusDataFormat
 
 
 def create_modbus_client(host: str, port: int) -> ModbusTcpClient:
