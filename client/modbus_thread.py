@@ -21,9 +21,13 @@ class ModbusThread(threading.Thread):
 
         for modbus_slaves in modbus_config['slaves']:
 
-            slave_dict = modbus_helper.create_slave_dict(slave_name=modbus_slaves['name'],
-                                                         slave_ip=modbus_slaves['host'],
-                                                         slave_port=modbus_slaves['port'])
+            try:
+                slave_dict = modbus_helper.create_slave_dict(slave_name=modbus_slaves['name'],
+                                                             slave_ip=modbus_slaves['host'],
+                                                             slave_port=modbus_slaves['port'])
+            except Exception as e:
+                logging.error('Error creating slave dictionary. Skipping... : {}'.format(e))
+                continue
 
             slave_dict_json = json.dumps(slave_dict)
 

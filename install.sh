@@ -31,7 +31,7 @@ pip3 install -r requirements.txt
 mkdir -p /opt/en-expert
 
 echo "Copying data"
-cp -r client /opt/en-expert/modbus-client
+cp -rv client/* /opt/en-expert/modbus-client/
 cp services/en-expert-modbus-client.sh /etc/init.d/en-expert-modbus-client.sh
 
 filename="/opt/en-expert/modbus-client/config.yml"
