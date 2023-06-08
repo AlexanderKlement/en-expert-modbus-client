@@ -50,7 +50,7 @@ def create_slave_dict(slave_name: str, slave_ip: str, slave_port: int) -> dict:
                                                         data_format=ModbusDataFormat.U_WORD)
     voltage_transformer_ration = read_modbus_data_point(client=client, address=0x102,
                                                         data_format=ModbusDataFormat.U_WORD)
-    voltage_transformer_ration += 10
+    voltage_transformer_ration = int(voltage_transformer_ration / 10)
 
     kta_times_ktv = current_transformer_ration * voltage_transformer_ration
 
