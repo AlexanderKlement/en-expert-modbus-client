@@ -50,6 +50,8 @@ def create_slave_dict(slave_name: str, slave_ip: str, slave_port: int) -> dict:
                                                         data_format=ModbusDataFormat.U_WORD)
     voltage_transformer_ration = read_modbus_data_point(client=client, address=0x102,
                                                         data_format=ModbusDataFormat.U_WORD)
+    voltage_transformer_ration += 10
+
     kta_times_ktv = current_transformer_ration * voltage_transformer_ration
 
     phase_voltage_mV = read_modbus_data_point(client=client, address=0x301, data_format=ModbusDataFormat.UD_WORD)
@@ -60,13 +62,13 @@ def create_slave_dict(slave_name: str, slave_ip: str, slave_port: int) -> dict:
     apparent_power_W = read_modbus_data_point(client=client, address=0x321, data_format=ModbusDataFormat.UD_WORD)
     apparent_power_W = convert_power(value=apparent_power_W, kta_times_ktv=kta_times_ktv)
 
-    positive_active_energy_W = read_modbus_data_point(client=client, address=0x325,
-                                                      data_format=ModbusDataFormat.UD_WORD)
-    positive_active_energy_W = convert_energy(value=positive_active_energy_W, kta_times_ktv=kta_times_ktv)
+    positive_active_energy_Wh = read_modbus_data_point(client=client, address=0x325,
+                                                       data_format=ModbusDataFormat.UD_WORD)
+    positive_active_energy_Wh = convert_energy(value=positive_active_energy_Wh, kta_times_ktv=kta_times_ktv)
 
-    negative_active_energy_W = read_modbus_data_point(client=client, address=0x335,
-                                                      data_format=ModbusDataFormat.UD_WORD)
-    negative_active_energy_W = convert_energy(value=negative_active_energy_W, kta_times_ktv=kta_times_ktv)
+    negative_active_energy_Wh = read_modbus_data_point(client=client, address=0x335,
+                                                       data_format=ModbusDataFormat.UD_WORD)
+    negative_active_energy_Wh = convert_energy(value=negative_active_energy_Wh, kta_times_ktv=kta_times_ktv)
 
     frequency_Hz = read_modbus_data_point(client=client, address=0x339, data_format=ModbusDataFormat.U_WORD) / 10
 
@@ -80,8 +82,8 @@ def create_slave_dict(slave_name: str, slave_ip: str, slave_port: int) -> dict:
         "phase_voltage_mV": phase_voltage_mV,
         "active_power_W": active_power_W,
         "apparent_power_W": apparent_power_W,
-        "positive_active_energy_W": positive_active_energy_W,
-        "negative_active_energy_W": negative_active_energy_W,
+        "positive_active_energy_Wh": positive_active_energy_Wh,
+        "negative_active_energy_Wh": negative_active_energy_Wh,
         "frequency_Hz": frequency_Hz,
         "thd_v1_percent": thd_v1_percent,
         "phase_voltage_max_mV": phase_voltage_max_mV,
@@ -99,6 +101,8 @@ def convert_power(value: int, kta_times_ktv: int) -> int:
 
 
 def convert_energy(value: int, kta_times_ktv: int) -> int:
+    if kta_times_ktv < 1:
+        return value
     if kta_times_ktv < 10:
         return int(value / 10)
     if kta_times_ktv < 100:
