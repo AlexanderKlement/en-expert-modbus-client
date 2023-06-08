@@ -14,8 +14,7 @@ class ModbusThread(threading.Thread):
     def run(self):
         modbus_config, mqtt_config, scan_interval = configuration.import_configuration()
 
-        mqtt_client = mqtt_helper.create_mqtt_client(mqtt_config['broker'], mqtt_config['port'],
-                                                     mqtt_config['username'], mqtt_config['password'])
+        mqtt_client = mqtt_helper.create_mqtt_client(username=mqtt_config['username'], password=mqtt_config['password'])
 
         mqtt_client.connect(mqtt_config['broker'], mqtt_config['port'])
 
@@ -33,7 +32,7 @@ class ModbusThread(threading.Thread):
 
             mqtt_client.publish(mqtt_config['topic'], payload=slave_dict_json)
             # Log the event
-            logging.info('Published data to MQTT broker')
+            logging.info('Published data to MQTT broker from {}'.format(modbus_slaves['name']))
         else:
             # Log the error
             logging.error('Error reading Modbus device')

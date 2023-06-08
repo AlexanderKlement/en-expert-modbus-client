@@ -68,12 +68,12 @@ def create_slave_dict(slave_name: str, slave_ip: str, slave_port: int) -> dict:
                                                       data_format=ModbusDataFormat.UD_WORD)
     negative_active_energy_W = convert_energy(value=negative_active_energy_W, kta_times_ktv=kta_times_ktv)
 
-    frequency_Hz = read_modbus_data_point(client=client, address=0x339, data_format=ModbusDataFormat.U_WORD) * 10
+    frequency_Hz = read_modbus_data_point(client=client, address=0x339, data_format=ModbusDataFormat.U_WORD) / 10
 
     thd_v1_percent = read_modbus_data_point(client=client, address=0x390, data_format=ModbusDataFormat.U_WORD)
     phase_voltage_max_mV = read_modbus_data_point(client=client, address=0x3c4, data_format=ModbusDataFormat.UD_WORD)
 
-    slave_dict =  {
+    slave_dict = {
         "name": slave_name,
         "ip": slave_ip,
         "port": slave_port,
@@ -94,19 +94,19 @@ def create_slave_dict(slave_name: str, slave_ip: str, slave_port: int) -> dict:
 
 def convert_power(value: int, kta_times_ktv: int) -> int:
     if kta_times_ktv < 5000:
-        return value * 100
+        return int(value / 100)
     return value
 
 
 def convert_energy(value: int, kta_times_ktv: int) -> int:
     if kta_times_ktv < 10:
-        return value * 10
+        return int(value / 10)
     if kta_times_ktv < 100:
-        return value * 100
+        return int(value / 100)
     if kta_times_ktv < 1000:
-        return value * 1000
+        return int(value / 1000)
     if kta_times_ktv < 10000:
-        return value * 10000
+        return int(value / 10000)
     if kta_times_ktv < 100000:
-        return value * 100000
+        return int(value / 100000)
     return value
