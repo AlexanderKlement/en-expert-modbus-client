@@ -50,9 +50,8 @@ def create_slave_dict(slave_name: str, slave_ip: str, slave_port: int) -> dict:
                                                         data_format=ModbusDataFormat.U_WORD)
     voltage_transformer_ration = read_modbus_data_point(client=client, address=0x102,
                                                         data_format=ModbusDataFormat.U_WORD)
-    voltage_transformer_ration *= 10
 
-    kta_times_ktv = current_transformer_ration * voltage_transformer_ration
+    kta_times_ktv = int(current_transformer_ration * (voltage_transformer_ration / 10))
 
     phase_voltage_mV = read_modbus_data_point(client=client, address=0x301, data_format=ModbusDataFormat.UD_WORD)
 
@@ -100,7 +99,7 @@ def convert_power(value: int, kta_times_ktv: int) -> int:
     return value
 
 
-def convert_energy(value: int, kta_times_ktv: int) -> int:
+def convert_energy(value: int, kta_times_ktv: int) -> float:
     if kta_times_ktv < 1:
         return value
     if kta_times_ktv < 10:
