@@ -32,7 +32,10 @@ class ModbusThread(threading.Thread):
 
             mqtt_client.publish(mqtt_config['topic'], payload=slave_dict_json)
             # Log the event
-            logging.info('Published data to MQTT broker from {}'.format(modbus_slaves['name']))
+            try:
+                logging.info('Published data to MQTT broker from {}'.format(modbus_slaves['name']).encode('utf-8'))
+            except UnicodeEncodeError as e:
+                logging.error('Error logging slave on {}'.format(modbus_slaves['host']))
         else:
             # Log the error
             logging.error('Error reading Modbus device')
